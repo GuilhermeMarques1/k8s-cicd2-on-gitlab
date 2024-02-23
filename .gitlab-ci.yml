@@ -1,5 +1,6 @@
 stages:
   - build
+  - deploy_gcp
 
 build_images:
   stage: build
@@ -19,3 +20,13 @@ build_images:
     - docker build -t guilhermemarques1/mysql-cicd:1.0 db/.
     - docker push guilhermemarques1/fullapp-cicd:1.0
     - docker push guilhermemarques1/mysql-cicd:1.0
+
+
+deploy_gcp:
+  stage: deploy_gcp
+
+  before_script:
+    - chmod 400 $SSH_KEY
+
+  script:
+    - ssh -o StrictHostKeyChecking=no -i $SSH_KEY gcp@$SSH_SERVER "sudo rm -rf ./fullapp-cicd/ && sudo git clone https://gitlab.com/GuilhermeMarques1/fullapp-cicd.git && cd fullapp-cicd && sudo chmod +x ./script.sh && ./script.sh"
