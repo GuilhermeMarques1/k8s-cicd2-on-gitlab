@@ -33,13 +33,13 @@ spec:
           imagePullPolicy: Always
           name: mysql
           env:
-          - name: "MYSQL_DATABASE"
+          - name: MYSQL_DATABASE
             valueFrom:
              secretKeyRef:
               name: my-secret
               key: MYSQL_DATABASE
 
-          - name: "MYSQL_ROOT_PASSWORD"
+          - name: MYSQL_ROOT_PASSWORD
             valueFrom:
               secretKeyRef:
                 name: my-secret
