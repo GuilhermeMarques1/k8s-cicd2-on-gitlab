@@ -1,0 +1,21 @@
+stages:
+  - build
+
+build_images:
+  stage: build
+  image: docker:20.10.16
+
+  services:
+    - docker:20.10.16-dind
+
+  variables:
+    DOCKER_TLS_CERTDIR: "/certs"
+
+  before_script:
+    - docker login -u $REGISTRY_USER -p $REGISTRY_PASS
+
+  script:
+    - docker build -t guilhermemarques1/fullapp-cicd:1.0 app/.
+    - docker build -t guilhermemarques1/mysql-cicd:1.0 db/.
+    - docker push guilhermemarques1/fullapp-cicd:1.0
+    - docker push guilhermemarques1/mysql-cicd:1.0
