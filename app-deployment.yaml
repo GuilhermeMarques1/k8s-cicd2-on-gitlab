@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fullapp
+  labels:
+    app: fullapp
+spec:
+  replicas: 6
+  selector:
+    matchLabels:
+      app: fullapp
+  template:
+    metadata:
+      labels:
+        app: fullapp
+    spec:
+      containers:
+        - image: guilhermemarques1/fullapp-cicd:1.0
+          imagePullPolicy: Always
+          name: fullapp
+          ports:
+            - containerPort: 80
